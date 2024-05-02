@@ -67,7 +67,7 @@ if st.sidebar.button('Submit'):
 
         # Pie chart of Hundred's distribution by Country
         st.write("Pie chart of Hundred's distribution by Country:")
-        hundreds_by_country = batting_df.groupby("Country")["Hundreds"].sum().reset_index()
+        hundreds_by_country = filtered_batting_df.groupby("Country")["Hundreds"].sum().reset_index()
         fig = px.pie(hundreds_by_country, values='Hundreds', names='Country', title='Hundred\'s distribution by Country')
         st.plotly_chart(fig)
 
