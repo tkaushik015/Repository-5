@@ -19,25 +19,19 @@ st.sidebar.header('Filters')
 analysis_option = st.sidebar.selectbox('Analysis Option', ['Bowling Stats', 'Batting Stats'])
 
 country_list = list(batting_df['Country'].unique())
-team_list = list(batting_df['2023_Team'].unique())  # IPL teams list
 
-country = st.sidebar.selectbox("Select Country", country_list)
-team = st.sidebar.selectbox("Select Team", team_list)
+country = st.sidebar.selectbox("Select Country",country_list)
 
 # Function to filter bowling data
 def filter_bowling_data(df):
     if country:
         df2 = df[df['Country'].str.contains(country, case=False)]
-    if team:
-        df2 = df2[df2['2023_Team'] == team]  # Filter by IPL team
     return df2
 
 # Function to filter batting data
 def filter_batting_data(df):
     if country:
         df2 = df[df['Country'].str.contains(country, case=False)]
-    if team:
-        df2 = df2[df2['2023_Team'] == team]  # Filter by IPL team
     return df2
 
 if st.sidebar.button('Submit'):
