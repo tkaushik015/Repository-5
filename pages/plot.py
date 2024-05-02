@@ -72,7 +72,7 @@ if st.sidebar.button('Submit'):
         st.plotly_chart(fig)
 
         # Scatter plot of Strike Rate vs Fifties
-        st.write("Scatter plot of Strike Rate vs Fifties:")
+        st.write("Scatter plot of Strike Rate vs Fifties:(This shows us how is Strike Rate of a player is linked with the number of Fifties he scores) ")
         fig = px.scatter(filtered_batting_df, x='Strike_rate', y='Fifties', title='Strike Rate vs Fifties')
         st.plotly_chart(fig)
 
