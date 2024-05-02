@@ -18,7 +18,7 @@ batting_df = load_batting_data()
 st.sidebar.header('Filters')
 analysis_option = st.sidebar.selectbox('Analysis Option', ['Bowling Stats', 'Batting Stats'])
 
-country_list = list(batting_df['Country'].unique())
+country_list = list(bowling_df['Country'].unique())
 
 country = st.sidebar.selectbox("Select Country", country_list)
 
@@ -46,9 +46,10 @@ if st.sidebar.button('Submit'):
         # Visualizations for Bowling Stats
         st.subheader('Bowling Statistics Visualizations')
 
-        # Bar plot of Wickets by Country
-        st.write("Bar plot of Wickets by Country:")
-        fig = px.bar(filtered_bowling_df, x='Country', y='Wickets', title='Wickets by Country')
+        # Pie chart of Wickets distribution by Country
+        st.write("Pie chart of Wickets distribution by Country:")
+        wickets_by_country = filtered_bowling_df.groupby("Country")["Wickets"].sum().reset_index()
+        fig = px.pie(wickets_by_country, values='Wickets', names='Country', title='Wickets distribution by Country')
         st.plotly_chart(fig)
 
         # Pie chart of Wickets distribution by Bowler
