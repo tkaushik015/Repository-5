@@ -91,7 +91,8 @@ if st.sidebar.button('Submit'):
 
         # Bar plot for Number of Power Hitters (Strike Rate >= 150) by Country
         st.write("Bar plot of Number of Power Hitters (Strike Rate >= 150) by Country:")
-        power_hitters_by_country = filtered_batting_df[filtered_batting_df['Strike_rate'] >= 150].groupby("Country").size().reset_index(name='Number of Power Hitters')
+        power_hitters_df = batting_df[batting_df['Strike_rate'] >= 150]
+        power_hitters_by_country = power_hitters_df.groupby("Country").size().reset_index(name='Number of Power Hitters')
         fig = px.bar(power_hitters_by_country, x='Country', y='Number of Power Hitters', title='Number of Power Hitters (Strike Rate >= 150) by Country')
         st.plotly_chart(fig)
 
