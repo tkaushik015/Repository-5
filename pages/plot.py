@@ -82,10 +82,10 @@ if st.sidebar.button('Submit'):
         fig = px.bar(runs_by_player, x='Name', y='Runs', title='Runs by Player')
         st.plotly_chart(fig)
 
-        # Bar plot of Fifties distribution by Country
-        st.write("Bar plot of Fifties distribution by Country:")
+        # Pie chart of Fifties distribution by Country
+        st.write("Pie chart of Fifties distribution by Country:")
         fifties_by_country = filtered_batting_df.groupby("Country")["Fifties"].sum().reset_index()
-        fig = px.bar(fifties_by_country, x='Country', y='Fifties', title='Fifties distribution by Country')
+        fig = px.pie(fifties_by_country, values='Fifties', names='Country', title='Fifties distribution by Country')
         st.plotly_chart(fig)
 
 else:
