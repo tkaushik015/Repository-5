@@ -20,18 +20,22 @@ analysis_option = st.sidebar.selectbox('Analysis Option', ['Bowling Stats', 'Bat
 
 country_list = list(batting_df['Country'].unique())
 
-country = st.sidebar.selectbox("Select Country",country_list)
+country = st.sidebar.selectbox("Select Country", country_list)
 
 # Function to filter bowling data
 def filter_bowling_data(df):
     if country:
         df2 = df[df['Country'].str.contains(country, case=False)]
+    else:
+        df2 = df  # Return original dataframe if no country selected
     return df2
 
 # Function to filter batting data
 def filter_batting_data(df):
     if country:
         df2 = df[df['Country'].str.contains(country, case=False)]
+    else:
+        df2 = df  # Return original dataframe if no country selected
     return df2
 
 if st.sidebar.button('Submit'):
@@ -62,7 +66,7 @@ if st.sidebar.button('Submit'):
 
         # Pie chart of Hundred's distribution by Country
         st.write("Pie chart of Hundred's distribution by Country:")
-        hundreds_by_country = filtered_batting_df.groupby("Country")["Hundreds"].sum().reset_index()
+        hundreds_by_country = batting_df.groupby("Country")["Hundreds"].sum().reset_index()
         fig = px.pie(hundreds_by_country, values='Hundreds', names='Country', title='Hundred\'s distribution by Country')
         st.plotly_chart(fig)
 
