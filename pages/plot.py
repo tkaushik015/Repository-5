@@ -83,17 +83,10 @@ if st.sidebar.button('Submit'):
         fig = px.pie(hundreds_by_country, values='Hundreds', names='Country', title='Hundred\'s distribution by Country')
         st.plotly_chart(fig)
 
-        # Pie chart of Fifties distribution by Country
+        # Pie chart of Fifties distribution by Country for all countries
         st.write("Pie chart of Fifties distribution by Country:")
-        fifties_by_country = filtered_batting_df.groupby("Country")["Fifties"].sum().reset_index()
-        fig = px.pie(fifties_by_country, values='Fifties', names='Country', title='Fifties distribution by Country')
-        st.plotly_chart(fig)
-
-        # Bar plot for Number of Power Hitters (Strike Rate >= 150) by Country
-        st.write("Bar plot of Number of Power Hitters (Strike Rate >= 150) by Country:")
-        power_hitters_df = batting_df[batting_df['Strike_rate'] >= 150]
-        power_hitters_by_country = power_hitters_df.groupby("Country").size().reset_index(name='Number of Power Hitters')
-        fig = px.bar(power_hitters_by_country, x='Country', y='Number of Power Hitters', title='Number of Power Hitters (Strike Rate >= 150) by Country')
+        fifties_by_country_all = batting_df.groupby("Country")["Fifties"].sum().reset_index()
+        fig = px.pie(fifties_by_country_all, values='Fifties', names='Country', title='Fifties distribution by Country')
         st.plotly_chart(fig)
 
 else:
