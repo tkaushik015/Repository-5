@@ -73,25 +73,4 @@ if st.sidebar.button('Submit'):
 
         # Bar plot of Runs by Player
         st.write("Bar plot of Runs by Player:")
-        runs_by_player = filtered_batting_df.groupby("Name")["Runs"].sum().reset_index()
-        fig = px.bar(runs_by_player, x='Name', y='Runs', title='Runs by Player')
-        st.plotly_chart(fig)
-
-        # Pie chart of Hundred's distribution by Country
-        st.write("Pie chart of Hundred's distribution by Country:")
-        hundreds_by_country = batting_df.groupby("Country")["Hundreds"].sum().reset_index()
-        fig = px.pie(hundreds_by_country, values='Hundreds', names='Country', title='Hundred\'s distribution by Country')
-        st.plotly_chart(fig)
-
-        # Pie chart of Fifties distribution by Country for all countries
-        st.write("Pie chart of Fifties distribution by Country:")
-        fifties_by_country_all = batting_df.groupby("Country")["Fifties"].sum().reset_index()
-        fig = px.pie(fifties_by_country_all, values='Fifties', names='Country', title='Fifties distribution by Country')
-        st.plotly_chart(fig)
-
-else:
-    if analysis_option == 'Bowling Stats':
-        st.write(bowling_df)
-
-    elif analysis_option == 'Batting Stats':
-        st.write(batting_df)
+        runs_by_player = filtered_batting_df.groupby("Name")["Runs"].sum().reset_
