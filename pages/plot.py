@@ -14,8 +14,13 @@ def load_bowling_data():
 def load_batting_data():
     return pd.read_csv('2023_batting.csv')
 
+@st.cache
+def load_wickets_data():
+    return pd.read_csv('2023_wickets.csv')
+
 bowling_df = load_bowling_data()
 batting_df = load_batting_data()
+wickets_df = load_wickets_data()
 
 # Sidebar filters
 st.sidebar.header('Filters')
@@ -55,6 +60,12 @@ if st.sidebar.button('Submit'):
 
         # Visualizations for Bowling Stats
         st.subheader('**Bowling Statistics Visualizations**')
+
+        # Plot showing Wickets Taken by Players
+        st.subheader('**Plot Showing Wickets Taken by Players**')
+        wickets_by_player = wickets_df.groupby("Player")["Wickets"].sum().reset_index()
+        fig = px.bar(wickets_by_player, x='Player', y='Wickets', title='Wickets Taken by Players')
+        st.plotly_chart(fig, use_container_width=True)
 
         # Pie chart of Wickets distribution by Country
         st.write("**Pie chart of Wickets distribution by Country:**")
