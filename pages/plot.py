@@ -14,13 +14,8 @@ def load_bowling_data():
 def load_batting_data():
     return pd.read_csv('2023_batting.csv')
 
-@st.cache
-def load_wickets_data():
-    return pd.read_csv('2023_bowling.csv')
-
 bowling_df = load_bowling_data()
 batting_df = load_batting_data()
-wickets_df = load_wickets_data()
 
 # Sidebar filters
 st.sidebar.header('Filters')
@@ -61,12 +56,6 @@ if st.sidebar.button('Submit'):
         # Visualizations for Bowling Stats
         st.subheader('**Bowling Statistics Visualizations**')
 
-        # Plot showing Wickets Taken by Players
-        st.subheader('**Plot Showing Wickets Taken by Players**')
-        wickets_by_player = wickets_df.groupby("Player")["Wickets"].sum().reset_index()
-        fig = px.bar(wickets_by_player, x='Player', y='Wickets', title='Wickets Taken by Players')
-        st.plotly_chart(fig, use_container_width=True)
-
         # Pie chart of Wickets distribution by Country
         st.write("**Pie chart of Wickets distribution by Country:**")
         wickets_by_country = bowling_df.groupby("Country")["Wickets"].sum().reset_index()
@@ -78,6 +67,11 @@ if st.sidebar.button('Submit'):
         wickets_by_bowler = filtered_bowling_df.groupby("Name")["Wickets"].sum().reset_index()
         fig = px.pie(wickets_by_bowler, values='Wickets', names='Name', title='Wickets distribution by Bowler')
         st.plotly_chart(fig, use_container_width=True)
+
+        # Box plot Showing Wickets Taken by Players
+        st.write("**Box plot Showing Wickets Taken by Players:**")
+        fig_box = px.box(filtered_bowling_df, x='Name', y='Wickets', title='Wickets Taken by Players')
+        st.plotly_chart(fig_box, use_container_width=True)
 
     elif analysis_option == 'Batting Stats':
         filtered_batting_df = filter_batting_data(batting_df)
