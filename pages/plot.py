@@ -72,11 +72,6 @@ if st.sidebar.button('Submit'):
         # Visualizations for Batting Stats
         st.subheader('Batting Statistics Visualizations')
 
-        # Bar plot of Batting Averages by Player
-        st.write("Bar plot of Batting Averages by Player:")
-        fig = px.bar(filtered_batting_df, x='Name', y='Average', title='Batting Averages by Player')
-        st.plotly_chart(fig)
-
         # Pie chart of Runs distribution by Player
         st.write("Pie chart of Runs distribution by Player:")
         runs_distribution_by_player = filtered_batting_df.groupby("Name")["Runs"].sum().reset_index()
@@ -100,6 +95,11 @@ if st.sidebar.button('Submit'):
         fifties_by_country_all = batting_df.groupby("Country")["Fifties"].sum().reset_index()
         fig = px.pie(fifties_by_country_all, values='Fifties', names='Country', title='Fifties distribution by Country')
         st.plotly_chart(fig)
+
+        # Bar plot of Batting Averages by Player
+        st.write("Bar plot of Batting Averages by Player:")
+        fig_avg = px.bar(filtered_batting_df, x='Name', y='Average', title='Batting Averages by Player')
+        st.plotly_chart(fig_avg)
 
 else:
     if analysis_option == 'Bowling Stats':
