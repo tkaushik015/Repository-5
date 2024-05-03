@@ -87,19 +87,19 @@ if st.sidebar.button('Submit'):
         st.plotly_chart(fig, use_container_width=True)
 
         # Pie chart of Hundred's distribution by Country
-        st.write("**Hundred's distribution by Country:**")
+        st.write("**# Hundred's distribution by Country:**")
         hundreds_by_country = batting_df.groupby("Country")["Hundreds"].sum().reset_index()
         fig = px.pie(hundreds_by_country, values='Hundreds', names='Country', title='Hundred\'s distribution by Country')
         st.plotly_chart(fig, use_container_width=True)
 
         # Pie chart of Fifties distribution by Country for all countries
-        st.write("**Fifties distribution by Country:**")
+        st.write("**# Fifties distribution by Country:**")
         fifties_by_country_all = batting_df.groupby("Country")["Fifties"].sum().reset_index()
         fig = px.pie(fifties_by_country_all, values='Fifties', names='Country', title='Fifties distribution by Country')
         st.plotly_chart(fig, use_container_width=True)
 
         # Bar plot of Batting Averages by Player
-        st.write("**Batting Averages of Players:**")
+        st.write("**# Batting Averages of Players:**")
         fig_avg = px.bar(filtered_batting_df, x='Name', y='Average', title='Batting Averages of Players')
         st.plotly_chart(fig_avg, use_container_width=True)
 
@@ -158,8 +158,11 @@ def set_background_color(color):
             .reportview-container {{
                 background-color: {color};
             }}
-            h1, h2, h3, h4, h5, h6, p, li {{
-                color: white;
+            h1, h2, h3, h4, h5, h6 {{
+                font-size: 24px;
+            }}
+            h5 {{
+                font-size: 18px;
             }}
         </style>
     """, unsafe_allow_html=True)
