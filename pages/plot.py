@@ -144,6 +144,16 @@ if st.sidebar.button('Submit'):
         most_sixes.index += 1  # Start numbering from 1
         st.write(most_sixes)
 
+# Add a section to compare batting statistics of selected players
+if analysis_option == 'Batting Stats':
+    st.sidebar.header('Compare Batsmen')
+    players_to_compare = st.sidebar.multiselect('Select Batsmen', batting_df['Name'].unique())
+
+    if st.sidebar.button('Compare'):
+        comparison_df = batting_df[batting_df['Name'].isin(players_to_compare)]
+        st.subheader('**Comparison of Batting Statistics**')
+        st.write(comparison_df)
+
 else:
     if analysis_option == 'Bowling Stats':
         st.write(bowling_df)
