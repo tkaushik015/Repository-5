@@ -1,4 +1,3 @@
-#THIS HAS PERFECT BATTING
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -39,6 +38,13 @@ def filter_batting_data(df):
         df2 = df  # Return original dataframe if no country selected
     return df2
 
+# Function to filter batting data by country
+def filter_batting_data_by_country(df, country):
+    if country:
+        return df[df['Country'] == country]
+    else:
+        return df
+
 if st.sidebar.button('Submit'):
     if analysis_option == 'Bowling Stats':
         filtered_bowling_df = filter_bowling_data(bowling_df)
@@ -65,6 +71,11 @@ if st.sidebar.button('Submit'):
 
         # Visualizations for Batting Stats
         st.subheader('Batting Statistics Visualizations')
+
+        # Bar plot of Batting Averages by Player
+        st.write("Bar plot of Batting Averages by Player:")
+        fig = px.bar(filtered_batting_df, x='Name', y='Average', title='Batting Averages by Player')
+        st.plotly_chart(fig)
 
         # Pie chart of Runs distribution by Player
         st.write("Pie chart of Runs distribution by Player:")
