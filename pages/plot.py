@@ -81,6 +81,20 @@ if st.sidebar.button('Submit'):
         fig_best_avg = px.bar(best_bowling_average, x='Name', y='Average', title='Best Bowling Average')
         st.plotly_chart(fig_best_avg, use_container_width=True)
 
+        # Pie chart for Five Wickets' Haul Distribution by Country
+        st.write("**Pie chart for Five Wickets' Haul Distribution by Country:**")
+        five_wickets_by_country = bowling_df.groupby("Country")["Five_wickets"].sum().reset_index()
+        fig_five_wickets = px.pie(five_wickets_by_country, values='Five_wickets', names='Country', 
+                                  title="Five Wickets' Haul Distribution by Country")
+        st.plotly_chart(fig_five_wickets, use_container_width=True)
+
+        # Pie chart for Four Wickets' Haul Distribution by Country
+        st.write("**Pie chart for Four Wickets' Haul Distribution by Country:**")
+        four_wickets_by_country = bowling_df.groupby("Country")["Four_wickets"].sum().reset_index()
+        fig_four_wickets = px.pie(four_wickets_by_country, values='Four_wickets', names='Country', 
+                                  title="Four Wickets' Haul Distribution by Country")
+        st.plotly_chart(fig_four_wickets, use_container_width=True)
+
     elif analysis_option == 'Batting Stats':
         filtered_batting_df = filter_batting_data(batting_df)
         st.write(filtered_batting_df)
