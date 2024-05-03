@@ -50,6 +50,29 @@ def filter_batting_data_by_country(df, country):
     else:
         return df
 
+# Add a section to compare batting statistics of selected players
+if analysis_option == 'Batting Stats':
+    st.sidebar.header('Compare Batsmen')
+    players_to_compare = st.sidebar.multiselect('Select Batsmen', batting_df['Name'].unique())
+
+    if st.sidebar.button('Compare'):
+        comparison_df = batting_df[batting_df['Name'].isin(players_to_compare)].reset_index(drop=True)
+        comparison_df.index += 1  # Start numbering from 1
+        comparison_df.rename(columns={'Unnamed: 0': 'Index no.'}, inplace=True)  # Rename index column
+        st.subheader('**Comparison of Batting Statistics**')
+        st.write(comparison_df)
+
+# Add a section to compare bowling statistics of selected players
+if analysis_option == 'Bowling Stats':
+    st.sidebar.header('Compare Bowlers')
+    bowlers_to_compare = st.sidebar.multiselect('Select Bowlers', bowling_df['Name'].unique())
+
+    if st.sidebar.button('Compare'):
+        comparison_bowlers_df = bowling_df[bowling_df['Name'].isin(bowlers_to_compare)].reset_index(drop=True)
+        comparison_bowlers_df.index += 1  # Start numbering from 1
+        st.subheader('**Comparison of Bowling Statistics**')
+        st.write(comparison_bowlers_df)
+
 if st.sidebar.button('Submit'):
     if analysis_option == 'Bowling Stats':
         filtered_bowling_df = filter_bowling_data(bowling_df)
@@ -118,9 +141,10 @@ if st.sidebar.button('Submit'):
                 selected_bowler_df = filtered_bowling_df[filtered_bowling_df['Name'] == bowler]
                 st.write(f'**{bowler}**: ')
                 fig = px.bar(selected_bowler_df, x=['Inns', 'Balls', 'Overs', 'Runs', 'Wickets', 'Average', 'Economy', 'Strike_Rate', 'Four_wickets', 'Five_wickets'],
-                             y=[selected_bowler_df['Inns'], selected_bowler_df['Balls'], selected_bowler_df['Overs'], selected_bowler_df['Runs'],
-                                selected_bowler_df['Wickets'], selected_bowler_df['Average'], selected_bowler_df['Economy'], selected_bowler_df['Strike_Rate'],
-                                selected_bowler_df['Four_wickets'], selected_bowler_df['Five_wickets']],
+                             y=[selected_bowler_df['Inns'], selected_bowler_df['Balls'], selected_bowler_df['Overs'],
+                                selected_bowler_df['Runs'], selected_bowler_df['Wickets'], selected_bowler_df['Average'],
+                                selected_bowler_df['Economy'], selected_bowler_df['Strike_Rate'], selected_bowler_df['Four_wickets'],
+                                selected_bowler_df['Five_wickets']],
                              labels={'x': 'Statistics', 'y': 'Values'},
                              title=f'Statistics comparison for {bowler}')
                 st.plotly_chart(fig, use_container_width=True)
