@@ -141,7 +141,7 @@ if st.sidebar.button('Submit'):
         # Table of Best Batting Average
         st.subheader('Best Batting Average')
         best_batting_average = filtered_batting_df[['Name', 'Average']].copy()
-        best_batting_average = best_batting_average.sort_values(by='Average', ascending=False)
+        best_batting_average = best_batting_average.sort_values(by='Average', ascending=False).reset_index(drop=True)
         best_batting_average.index += 1  # Start numbering from 1
         st.write(best_batting_average)
 
