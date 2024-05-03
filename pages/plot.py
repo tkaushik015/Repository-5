@@ -156,13 +156,6 @@ if analysis_option == 'Batting Stats':
         st.subheader('**Comparison of Batting Statistics**')
         st.write(comparison_df)
 
-else:
-    if analysis_option == 'Bowling Stats':
-        st.write(bowling_df)
-
-    elif analysis_option == 'Batting Stats':
-        st.write(batting_df)
-
 # Set background color
 def set_background_color(color):
     st.markdown(f"""
