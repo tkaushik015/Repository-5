@@ -87,6 +87,12 @@ if st.sidebar.button('Submit'):
         fig_best_avg = px.bar(best_bowling_average, x='Name', y='Average', title='Best Bowling Average')
         st.plotly_chart(fig_best_avg, use_container_width=True)
 
+        # Heatmap of Bowling Data Correlation
+        st.subheader('**Bowling Data Correlation Heatmap**')
+        bowling_heatmap = filtered_bowling_df[['Wickets', 'Runs', 'Average', 'Economy', 'Strike_rate', 'Four_wickets', 'Five_wickets']]
+        sns.heatmap(bowling_heatmap.corr(), annot=True, cmap='coolwarm', linewidths=0.5)
+        st.pyplot()
+
         # Table of Number of Four Wicket Hauls by Each Player
         st.subheader('**Number of Four Wicket Hauls by Each Player**')
         four_wickets_by_player = filtered_bowling_df[['Name', 'Four_wickets']].copy()
