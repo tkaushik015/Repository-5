@@ -101,6 +101,11 @@ if st.sidebar.button('Submit'):
         fig_avg = px.bar(filtered_batting_df, x='Name', y='Average', title='Batting Averages by Player')
         st.plotly_chart(fig_avg)
 
+        # Table of Top Power hitters
+        st.subheader('Top Power hitters')
+        top_power_hitters = filtered_batting_df[filtered_batting_df['Strike_rate'] >= 150].reset_index(drop=True)
+        st.write(top_power_hitters)
+
 else:
     if analysis_option == 'Bowling Stats':
         st.write(bowling_df)
