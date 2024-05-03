@@ -72,11 +72,10 @@ if st.sidebar.button('Submit'):
         filtered_batting_df = filter_batting_data(batting_df)
         st.write(filtered_batting_df)
 
-        # Visualizations for Batting Stats
-        st.subheader('Batting Statistics Visualizations')
+        # Orange Cap Pie Chart
+        st.subheader('Orange Cap Pie Chart')
 
         # Pie chart of Runs distribution by Player
-        st.write("Pie chart of Runs distribution by Player:")
         runs_distribution_by_player = filtered_batting_df.groupby("Name")["Runs"].sum().reset_index()
         fig = px.pie(runs_distribution_by_player, values='Runs', names='Name', title='Runs distribution by Player')
         st.plotly_chart(fig, use_container_width=True)
@@ -103,6 +102,13 @@ if st.sidebar.button('Submit'):
         st.write("Bar plot of Batting Averages by Player:")
         fig_avg = px.bar(filtered_batting_df, x='Name', y='Average', title='Batting Averages by Player')
         st.plotly_chart(fig_avg, use_container_width=True)
+
+        # Best Batting Average table
+        st.subheader('Best Batting Average')
+        best_batting_average = filtered_batting_df[['Name', 'Average']].copy()
+        best_batting_average = best_batting_average.sort_values(by='Average', ascending=False).reset_index(drop=True)
+        best_batting_average.index += 1  # Start numbering from 1
+        st.write(best_batting_average)
 
         # Table of Top Power hitters
         st.subheader('Top Power hitters')
@@ -137,13 +143,6 @@ if st.sidebar.button('Submit'):
         most_sixes = most_sixes[most_sixes['Sixes'] != 0]  # Filter non-zero sixes
         most_sixes.index += 1  # Start numbering from 1
         st.write(most_sixes)
-
-        # Table of Best Batting Average
-        st.subheader('Best Batting Average')
-        best_batting_average = filtered_batting_df[['Name', 'Average']].copy()
-        best_batting_average = best_batting_average.sort_values(by='Average', ascending=False).reset_index(drop=True)
-        best_batting_average.index += 1  # Start numbering from 1
-        st.write(best_batting_average)
 
 else:
     if analysis_option == 'Bowling Stats':
