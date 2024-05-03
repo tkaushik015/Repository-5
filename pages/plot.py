@@ -57,13 +57,13 @@ if st.sidebar.button('Submit'):
         st.subheader('Bowling Statistics Visualizations')
 
         # Pie chart of Wickets distribution by Country
-        st.write("Pie chart of Wickets distribution by Country:")
+        st.write("**Pie chart of Wickets distribution by Country:**")
         wickets_by_country = filtered_bowling_df.groupby("Country")["Wickets"].sum().reset_index()
         fig = px.pie(wickets_by_country, values='Wickets', names='Country', title='Wickets distribution by Country')
         st.plotly_chart(fig, use_container_width=True)
 
         # Pie chart of Wickets distribution by Bowler
-        st.write("Pie chart of Wickets distribution by Bowler:")
+        st.write("**Pie chart of Wickets distribution by Bowler:**")
         wickets_by_bowler = filtered_bowling_df.groupby("Name")["Wickets"].sum().reset_index()
         fig = px.pie(wickets_by_bowler, values='Wickets', names='Name', title='Wickets distribution by Bowler')
         st.plotly_chart(fig, use_container_width=True)
@@ -73,7 +73,7 @@ if st.sidebar.button('Submit'):
         st.write(filtered_batting_df)
 
         # Orange Cap Pie Chart
-        st.subheader('Orange Cap Pie Chart')
+        st.subheader('**Orange Cap Pie Chart**')
 
         # Pie chart of Runs distribution by Player
         runs_distribution_by_player = filtered_batting_df.groupby("Name")["Runs"].sum().reset_index()
@@ -81,25 +81,25 @@ if st.sidebar.button('Submit'):
         st.plotly_chart(fig, use_container_width=True)
 
         # Bar plot of Bar Plot Showing Runs Scored by Players
-        st.write("Bar Plot Showing Runs Scored by Players:")
+        st.write("**Bar Plot Showing Runs Scored by Players:**")
         runs_by_player = filtered_batting_df.groupby("Name")["Runs"].sum().reset_index()
         fig = px.bar(runs_by_player, x='Name', y='Runs', title='Bar Plot Showing Runs Scored by Players')
         st.plotly_chart(fig, use_container_width=True)
 
         # Pie chart of Hundred's distribution by Country
-        st.write("# Hundred's distribution by Country:")
+        st.write("**# Hundred's distribution by Country:**")
         hundreds_by_country = batting_df.groupby("Country")["Hundreds"].sum().reset_index()
         fig = px.pie(hundreds_by_country, values='Hundreds', names='Country', title='Hundred\'s distribution by Country')
         st.plotly_chart(fig, use_container_width=True)
 
         # Pie chart of Fifties distribution by Country for all countries
-        st.write("# Fifties distribution by Country:")
+        st.write("**# Fifties distribution by Country:**")
         fifties_by_country_all = batting_df.groupby("Country")["Fifties"].sum().reset_index()
         fig = px.pie(fifties_by_country_all, values='Fifties', names='Country', title='Fifties distribution by Country')
         st.plotly_chart(fig, use_container_width=True)
 
         # Bar plot of Batting Averages by Player
-        st.write("# Batting Averages of Players:")
+        st.write("**# Batting Averages of Players:**")
         fig_avg = px.bar(filtered_batting_df, x='Name', y='Average', title='Batting Averages of Players')
         st.plotly_chart(fig_avg, use_container_width=True)
 
@@ -150,3 +150,15 @@ else:
 
     elif analysis_option == 'Batting Stats':
         st.write(batting_df)
+
+# Set background color
+def set_background_color(color):
+    st.markdown(f"""
+        <style>
+            .reportview-container {{
+                background-color: {color};
+            }}
+        </style>
+    """, unsafe_allow_html=True)
+
+set_background_color("#000000")
