@@ -108,8 +108,8 @@ if st.sidebar.button('Submit'):
 
         # Heatmap for Bowling Statistics
         st.subheader('**Heatmap for Bowling Statistics**')
-        bowling_heatmap = filtered_bowling_df.drop(columns=['Name']).set_index('Country')
-        sns.heatmap(bowling_heatmap.corr(), annot=True, cmap='coolwarm', linewidths=0.5)
+        bowling_heatmap = filtered_bowling_df.select_dtypes(include=['float64', 'int64']).corr()
+        sns.heatmap(bowling_heatmap, annot=True, cmap='coolwarm', linewidths=0.5)
         st.pyplot()
 
     elif analysis_option == 'Batting Stats':
@@ -191,8 +191,8 @@ if st.sidebar.button('Submit'):
 
         # Heatmap for Batting Statistics
         st.subheader('**Heatmap for Batting Statistics**')
-        batting_heatmap = filtered_batting_df.drop(columns=['Name']).set_index('Country')
-        sns.heatmap(batting_heatmap.corr(), annot=True, cmap='coolwarm', linewidths=0.5)
+        batting_heatmap = filtered_batting_df.select_dtypes(include=['float64', 'int64']).corr()
+        sns.heatmap(batting_heatmap, annot=True, cmap='coolwarm', linewidths=0.5)
         st.pyplot()
 
 # Add a section to compare batting statistics of selected players
