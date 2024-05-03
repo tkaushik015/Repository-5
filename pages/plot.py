@@ -76,24 +76,33 @@ if st.sidebar.button('Submit'):
         # Best Bowling Average bar plot
         st.subheader('**Best Bowling Average**')
         best_bowling_average = filtered_bowling_df[['Name', 'Average']].copy()
-        best_bowling_average = best_bowling_average.sort_values(by='Average', ascending=False).reset_index(drop=True)
+        best_bowling_average = best_bowling_average[best_bowling_average['Average'] != 0]  # Filter non-zero averages
+        best_bowling_average = best_bowling_average.sort_values(by='Average').reset_index(drop=True)
         best_bowling_average.index += 1  # Start numbering from 1
         fig_best_avg = px.bar(best_bowling_average, x='Name', y='Average', title='Best Bowling Average')
         st.plotly_chart(fig_best_avg, use_container_width=True)
 
-        # Pie chart for Five Wickets' Haul Distribution by Country
-        st.write("**Pie chart for Five Wickets' Haul Distribution by Country:**")
-        five_wickets_by_country = bowling_df.groupby("Country")["Five_wickets"].sum().reset_index()
-        fig_five_wickets = px.pie(five_wickets_by_country, values='Five_wickets', names='Country', 
-                                  title="Five Wickets' Haul Distribution by Country")
-        st.plotly_chart(fig_five_wickets, use_container_width=True)
+        # Table of Number of Four Wicket Hauls by Each Player
+        st.subheader('**Number of Four Wicket Hauls by Each Player**')
+        four_wickets_by_player = filtered_bowling_df[['Name', 'Four_wickets']].copy()
+        four_wickets_by_player = four_wickets_by_player[four_wickets_by_player['Four_wickets'] != 0]  # Filter non-zero four wickets
+        four_wickets_by_player.index += 1  # Start numbering from 1
+        st.write(four_wickets_by_player)
 
-        # Pie chart for Four Wickets' Haul Distribution by Country
-        st.write("**Pie chart for Four Wickets' Haul Distribution by Country:**")
-        four_wickets_by_country = bowling_df.groupby("Country")["Four_wickets"].sum().reset_index()
-        fig_four_wickets = px.pie(four_wickets_by_country, values='Four_wickets', names='Country', 
-                                  title="Four Wickets' Haul Distribution by Country")
-        st.plotly_chart(fig_four_wickets, use_container_width=True)
+        # Table of Number of Five Wicket Hauls by Each Player
+        st.subheader('**Number of Five Wicket Hauls by Each Player**')
+        five_wickets_by_player = filtered_bowling_df[['Name', 'Five_wickets']].copy()
+        five_wickets_by_player = five_wickets_by_player[five_wickets_by_player['Five_wickets'] != 0]  # Filter non-zero five wickets
+        five_wickets_by_player.index += 1  # Start numbering from 1
+        st.write(five_wickets_by_player)
+
+        # Table of Top Economical Players
+        st.subheader('**Top Economical Players**')
+        top_economical_players = filtered_bowling_df[['Name', 'Economy']].copy()
+        top_economical_players = top_economical_players[top_economical_players['Economy'] != 0]  # Filter non-zero economy
+        top_economical_players = top_economical_players.sort_values(by='Economy').reset_index(drop=True)
+        top_economical_players.index += 1  # Start numbering from 1
+        st.write(top_economical_players)
 
     elif analysis_option == 'Batting Stats':
         filtered_batting_df = filter_batting_data(batting_df)
@@ -133,6 +142,7 @@ if st.sidebar.button('Submit'):
         # Best Batting Average table
         st.subheader('**Best Batting Average**')
         best_batting_average = filtered_batting_df[['Name', 'Average']].copy()
+        best_batting_average = best_batting_average[best_batting_average['Average'] != 0]  # Filter non-zero averages
         best_batting_average = best_batting_average.sort_values(by='Average', ascending=False).reset_index(drop=True)
         best_batting_average.index += 1  # Start numbering from 1
         st.write(best_batting_average)
