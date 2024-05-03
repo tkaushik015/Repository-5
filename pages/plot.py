@@ -58,7 +58,7 @@ if st.sidebar.button('Submit'):
 
         # Pie chart of Wickets distribution by Country
         st.write("**Pie chart of Wickets distribution by Country:**")
-        wickets_by_country = filtered_bowling_df.groupby("Country")["Wickets"].sum().reset_index()
+        wickets_by_country = bowling_df.groupby("Country")["Wickets"].sum().reset_index()
         fig = px.pie(wickets_by_country, values='Wickets', names='Country', title='Wickets distribution by Country')
         st.plotly_chart(fig, use_container_width=True)
 
