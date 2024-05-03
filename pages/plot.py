@@ -72,15 +72,13 @@ if st.sidebar.button('Submit'):
         filtered_batting_df = filter_batting_data(batting_df)
         st.write(filtered_batting_df)
 
-        # Orange Cap Table
-        st.subheader('Orange Cap Table')
-        orange_cap_table = filtered_batting_df[['Name', 'Runs']].copy()
-        orange_cap_table = orange_cap_table.sort_values(by='Runs', ascending=False).reset_index(drop=True)
-        orange_cap_table.index += 1  # Start numbering from 1
-        st.write(orange_cap_table)
-
         # Orange Cap Pie Chart
         st.subheader('Orange Cap Pie Chart')
+
+        # Pie chart of Runs distribution by Player
+        runs_distribution_by_player = filtered_batting_df.groupby("Name")["Runs"].sum().reset_index()
+        fig = px.pie(runs_distribution_by_player, values='Runs', names='Name', title='Runs distribution by Player')
+        st.plotly_chart(fig, use_container_width=True)
 
         # Bar plot of Runs by Player
         st.write("Bar plot of Runs by Player:")
