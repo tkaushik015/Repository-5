@@ -8,9 +8,7 @@ st.set_page_config(layout="wide")
 # Load data
 @st.cache
 def load_bowling_data():
-    df = pd.read_csv('2023_bowling.csv', index_col=0)  # Assuming the index column is the first column
-    df.index += 1  # Add 1 to the index
-    return df
+    return pd.read_csv('2023_bowling.csv')
 
 @st.cache
 def load_batting_data():
