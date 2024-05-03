@@ -104,6 +104,29 @@ if st.sidebar.button('Submit'):
         top_economical_players.index += 1  # Start numbering from 1
         st.write(top_economical_players)
 
+        # Bar plot showing key statistics of selected bowlers
+        if st.button('Show Bowler Statistics'):
+            selected_bowlers = st.multiselect('Select Bowlers', filtered_bowling_df['Name'].unique())
+
+            if selected_bowlers:
+                selected_data = filtered_bowling_df[filtered_bowling_df['Name'].isin(selected_bowlers)]
+
+                st.subheader('Bar Plot Showing Key Statistics of Selected Bowlers')
+                fig_selected_bowlers = px.bar(selected_data, x='Name', y=['Innings', 'Runs', 'Overs', 'Wickets', 'Economy'],
+                                               title='Key Statistics of Selected Bowlers',
+                                               labels={'value': 'Value', 'variable': 'Statistic'})
+                st.plotly_chart(fig_selected_bowlers, use_container_width=True)
+
+        # Heatmap of Economy vs Wickets
+        st.subheader('**Heatmap of Economy vs Wickets**')
+        fig_heatmap = px.density_heatmap(filtered_bowling_df, x='Economy', y='Wickets', title='Economy vs Wickets Heatmap')
+        st.plotly_chart(fig_heatmap, use_container_width=True)
+
+        # Heatmap of Runs vs Overs
+        st.subheader('**Heatmap of Runs vs Overs**')
+        fig_heatmap_runs_overs = px.density_heatmap(filtered_bowling_df, x='Runs', y='Overs', title='Runs vs Overs Heatmap')
+        st.plotly_chart(fig_heatmap_runs_overs, use_container_width=True)
+
     elif analysis_option == 'Batting Stats':
         filtered_batting_df = filter_batting_data(batting_df)
         st.write(filtered_batting_df)
@@ -180,29 +203,6 @@ if st.sidebar.button('Submit'):
         most_sixes = most_sixes[most_sixes['Sixes'] != 0]  # Filter non-zero sixes
         most_sixes.index += 1  # Start numbering from 1
         st.write(most_sixes)
-
-# Add a section to compare batting statistics of selected players
-if analysis_option == 'Batting Stats':
-    st.sidebar.header('Compare Batsmen')
-    players_to_compare = st.sidebar.multiselect('Select Batsmen', batting_df['Name'].unique())
-
-    if st.sidebar.button('Compare'):
-        comparison_df = batting_df[batting_df['Name'].isin(players_to_compare)].reset_index(drop=True)
-        comparison_df.index += 1  # Start numbering from 1
-        comparison_df.rename(columns={'Unnamed: 0': 'Index no.'}, inplace=True)  # Rename index column
-        st.subheader('**Comparison of Batting Statistics**')
-        st.write(comparison_df)
-
-# Add a section to compare bowling statistics of selected players
-if analysis_option == 'Bowling Stats':
-    st.sidebar.header('Compare Bowlers')
-    bowlers_to_compare = st.sidebar.multiselect('Select Bowlers', bowling_df['Name'].unique())
-
-    if st.sidebar.button('Compare'):
-        comparison_bowlers_df = bowling_df[bowling_df['Name'].isin(bowlers_to_compare)].reset_index(drop=True)
-        comparison_bowlers_df.index += 1  # Start numbering from 1
-        st.subheader('**Comparison of Bowling Statistics**')
-        st.write(comparison_bowlers_df)
 
 # Set background color
 def set_background_color(color):
