@@ -2,20 +2,35 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+
 # Set page width
 st.set_page_config(layout="wide")
 
 # Load data
 @st.cache
 def load_bowling_data():
-    return pd.read_csv('2023_bowling.csv')
+    df = pd.read_csv('2023_bowling.csv')
+    df.index += 1  # Adjust index to start from 1
+    return df
 
 @st.cache
 def load_batting_data():
-    return pd.read_csv('2023_batting.csv')
+    df = pd.read_csv('2023_batting.csv')
+    df.index += 1  # Adjust index to start from 1
+    return df
 
 bowling_df = load_bowling_data()
 batting_df = load_batting_data()
+
+# Ensure this index adjustment is reflected throughout your app wherever these dataframes are used.
+
+
+
+
+
+
+
+
 
 # Sidebar filters
 st.sidebar.header('Filters')
@@ -26,12 +41,20 @@ country_list = list(bowling_df['Country'].unique())
 country = st.sidebar.selectbox("Select Country", country_list)
 
 # Function to filter bowling data
-# General function to filter data based on country
-def filter_data(df, country):
+def filter_bowling_data(df):
     if country:
-        df = df[df['Country'].str.contains(country, case=False)]
-    df.reset_index(drop=True, inplace=True)
-    return df
+        df2 = df[df['Country'].str.contains(country, case=False)]
+    else:
+        df2 = df  # Return original dataframe if no country selected
+    return df2
+
+# Function to filter batting data
+def filter_batting_data(df):
+    if country:
+        df2 = df[df['Country'].str.contains(country, case=False)]
+    else:
+        df2 = df  # Return original dataframe if no country selected
+    return df2
 
 # Function to filter batting data by country
 def filter_batting_data_by_country(df, country):
@@ -66,12 +89,12 @@ if st.sidebar.button('Submit'):
         st.plotly_chart(fig_bar, use_container_width=True)
 
         # Best Bowling Average bar plot
-        st.subheader('**Best Bowling Average**')
+        st.subheader('**Bowling Averages of Players**')
         best_bowling_average = filtered_bowling_df[['Name', 'Average']].copy()
         best_bowling_average = best_bowling_average[best_bowling_average['Average'] != 0]  # Filter non-zero averages
         best_bowling_average = best_bowling_average.sort_values(by='Average').reset_index(drop=True)
         best_bowling_average.index += 1  # Start numbering from 1
-        fig_best_avg = px.bar(best_bowling_average, x='Name', y='Average', title='Best Bowling Average')
+        fig_best_avg = px.bar(best_bowling_average, x='Name', y='Average', title='Bowling Averages')
         st.plotly_chart(fig_best_avg, use_container_width=True)
 
         # Table of Number of Four Wicket Hauls by Each Player
@@ -116,24 +139,24 @@ if st.sidebar.button('Submit'):
         # Bar plot of Bar Plot Showing Runs Scored by Players
         st.subheader('**Bar Plot Showing Runs Scored by Players**')
         runs_by_player = filtered_batting_df.groupby("Name")["Runs"].sum().reset_index()
-        fig = px.bar(runs_by_player, x='Name', y='Runs', title='Bar Plot Showing Runs Scored by Players')
+        fig = px.bar(runs_by_player, x='Name', y='Runs', title='Runs Scored')
         st.plotly_chart(fig, use_container_width=True)
 
         # Pie chart of Hundred's distribution by Country
         st.subheader('**Hundred\'s distribution by Country**')
         hundreds_by_country = batting_df.groupby("Country")["Hundreds"].sum().reset_index()
-        fig = px.pie(hundreds_by_country, values='Hundreds', names='Country', title='Hundred\'s distribution by Country')
+        fig = px.pie(hundreds_by_country, values='Hundreds', names='Country', title='Hundred\'s distribution')
         st.plotly_chart(fig, use_container_width=True)
 
         # Pie chart of Fifties distribution by Country for all countries
         st.subheader('**Fifties distribution by Country**')
         fifties_by_country_all = batting_df.groupby("Country")["Fifties"].sum().reset_index()
-        fig = px.pie(fifties_by_country_all, values='Fifties', names='Country', title='Fifties distribution by Country')
+        fig = px.pie(fifties_by_country_all, values='Fifties', names='Country', title='Fifties distribution')
         st.plotly_chart(fig, use_container_width=True)
 
         # Bar plot of Batting Averages by Player
         st.subheader('**Batting Averages of Players**')
-        fig_avg = px.bar(filtered_batting_df, x='Name', y='Average', title='Batting Averages of Players')
+        fig_avg = px.bar(filtered_batting_df, x='Name', y='Average', title='Batting Averages')
         st.plotly_chart(fig_avg, use_container_width=True)
 
         # Best Batting Average table
