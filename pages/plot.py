@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+# Set page width
+st.set_page_config(layout="wide")
+
 # Load data
 @st.cache
 def load_bowling_data():
@@ -57,13 +60,13 @@ if st.sidebar.button('Submit'):
         st.write("Pie chart of Wickets distribution by Country:")
         wickets_by_country = filtered_bowling_df.groupby("Country")["Wickets"].sum().reset_index()
         fig = px.pie(wickets_by_country, values='Wickets', names='Country', title='Wickets distribution by Country')
-        st.plotly_chart(fig)
+        st.plotly_chart(fig, use_container_width=True)
 
         # Pie chart of Wickets distribution by Bowler
         st.write("Pie chart of Wickets distribution by Bowler:")
         wickets_by_bowler = filtered_bowling_df.groupby("Name")["Wickets"].sum().reset_index()
         fig = px.pie(wickets_by_bowler, values='Wickets', names='Name', title='Wickets distribution by Bowler')
-        st.plotly_chart(fig)
+        st.plotly_chart(fig, use_container_width=True)
 
     elif analysis_option == 'Batting Stats':
         filtered_batting_df = filter_batting_data(batting_df)
@@ -76,30 +79,30 @@ if st.sidebar.button('Submit'):
         st.write("Pie chart of Runs distribution by Player:")
         runs_distribution_by_player = filtered_batting_df.groupby("Name")["Runs"].sum().reset_index()
         fig = px.pie(runs_distribution_by_player, values='Runs', names='Name', title='Runs distribution by Player')
-        st.plotly_chart(fig)
+        st.plotly_chart(fig, use_container_width=True)
 
         # Bar plot of Runs by Player
         st.write("Bar plot of Runs by Player:")
         runs_by_player = filtered_batting_df.groupby("Name")["Runs"].sum().reset_index()
         fig = px.bar(runs_by_player, x='Name', y='Runs', title='Runs by Player')
-        st.plotly_chart(fig)
+        st.plotly_chart(fig, use_container_width=True)
 
         # Pie chart of Hundred's distribution by Country
         st.write("Pie chart of Hundred's distribution by Country:")
         hundreds_by_country = batting_df.groupby("Country")["Hundreds"].sum().reset_index()
         fig = px.pie(hundreds_by_country, values='Hundreds', names='Country', title='Hundred\'s distribution by Country')
-        st.plotly_chart(fig)
+        st.plotly_chart(fig, use_container_width=True)
 
         # Pie chart of Fifties distribution by Country for all countries
         st.write("Pie chart of Fifties distribution by Country:")
         fifties_by_country_all = batting_df.groupby("Country")["Fifties"].sum().reset_index()
         fig = px.pie(fifties_by_country_all, values='Fifties', names='Country', title='Fifties distribution by Country')
-        st.plotly_chart(fig)
+        st.plotly_chart(fig, use_container_width=True)
 
         # Bar plot of Batting Averages by Player
         st.write("Bar plot of Batting Averages by Player:")
         fig_avg = px.bar(filtered_batting_df, x='Name', y='Average', title='Batting Averages by Player')
-        st.plotly_chart(fig_avg)
+        st.plotly_chart(fig_avg, use_container_width=True)
 
         # Table of Top Power hitters
         st.subheader('Top Power hitters')
@@ -112,6 +115,12 @@ if st.sidebar.button('Submit'):
         fifties_by_player = filtered_batting_df[['Name', 'Fifties']].copy()
         fifties_by_player.index += 1  # Start numbering from 1
         st.write(fifties_by_player)
+
+        # Table of Number Of Hundreds By Each Player
+        st.subheader('Number Of Hundreds By Each Player')
+        hundreds_by_player = filtered_batting_df[['Name', 'Hundreds']].copy()
+        hundreds_by_player.index += 1  # Start numbering from 1
+        st.write(hundreds_by_player)
 
 else:
     if analysis_option == 'Bowling Stats':
