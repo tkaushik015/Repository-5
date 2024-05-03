@@ -26,27 +26,12 @@ country_list = list(bowling_df['Country'].unique())
 country = st.sidebar.selectbox("Select Country", country_list)
 
 # Function to filter bowling data
-def filter_bowling_data(df):
+def filter_data(df, country):
     if country:
-        df2 = df[df['Country'].str.contains(country, case=False)]
-    else:
-        df2 = df  # Return original dataframe if no country selected
-    return df2
+        df = df[df['Country'].str.contains(country, case=False)]
+    df.reset_index(drop=True, inplace=True)
+    return df
 
-# Function to filter batting data
-def filter_batting_data(df):
-    if country:
-        df2 = df[df['Country'].str.contains(country, case=False)]
-    else:
-        df2 = df  # Return original dataframe if no country selected
-    return df2
-
-# Function to filter batting data by country
-def filter_batting_data_by_country(df, country):
-    if country:
-        return df[df['Country'] == country]
-    else:
-        return df
 
 if st.sidebar.button('Submit'):
     if analysis_option == 'Bowling Stats':
