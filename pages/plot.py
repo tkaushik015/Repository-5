@@ -104,6 +104,7 @@ if st.sidebar.button('Submit'):
         # Table of Top Power hitters
         st.subheader('Top Power hitters')
         top_power_hitters = filtered_batting_df[filtered_batting_df['Strike_rate'] >= 150].reset_index(drop=True)
+        top_power_hitters.index += 1  # Start numbering from 1
         st.write(top_power_hitters)
 
 else:
