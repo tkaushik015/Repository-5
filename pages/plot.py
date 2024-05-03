@@ -8,11 +8,11 @@ st.set_page_config(layout="wide")
 # Load data
 @st.cache
 def load_bowling_data():
-    return pd.read_csv('2023_bowling.csv')
+    return pd.read_csv('2023_bowling.csv', index_col=0)
 
 @st.cache
 def load_batting_data():
-    return pd.read_csv('2023_batting.csv')
+    return pd.read_csv('2023_batting.csv', index_col=0)
 
 bowling_df = load_bowling_data()
 batting_df = load_batting_data()
