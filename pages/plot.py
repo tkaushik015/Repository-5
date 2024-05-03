@@ -1,11 +1,8 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
 import seaborn as sns
 import matplotlib.pyplot as plt
-
-# Disable the warning
-st.set_option('deprecation.showPyplotGlobalUse', False)
+import plotly.express as px
 
 # Set page width
 st.set_page_config(layout="wide")
@@ -87,12 +84,6 @@ if st.sidebar.button('Submit'):
         fig_best_avg = px.bar(best_bowling_average, x='Name', y='Average', title='Best Bowling Average')
         st.plotly_chart(fig_best_avg, use_container_width=True)
 
-        # Heatmap of Bowling Data Correlation
-        st.subheader('**Bowling Data Correlation Heatmap**')
-        bowling_heatmap = filtered_bowling_df[['Wickets', 'Runs', 'Average', 'Economy', 'Strike_rate', 'Four_wickets', 'Five_wickets']]
-        sns.heatmap(bowling_heatmap.corr(), annot=True, cmap='coolwarm', linewidths=0.5)
-        st.pyplot()
-
         # Table of Number of Four Wicket Hauls by Each Player
         st.subheader('**Number of Four Wicket Hauls by Each Player**')
         four_wickets_by_player = filtered_bowling_df[['Name', 'Four_wickets']].copy()
@@ -114,6 +105,11 @@ if st.sidebar.button('Submit'):
         top_economical_players = top_economical_players.sort_values(by='Economy').reset_index(drop=True)
         top_economical_players.index += 1  # Start numbering from 1
         st.write(top_economical_players)
+
+        # Correlation Matrix for Bowling Stats
+        st.subheader('**Correlation Matrix for Bowling Stats:**')
+        bowling_heatmap = filtered_bowling_df.select_dtypes(include=['float64', 'int64']).corr()
+        st.write(bowling_heatmap)
 
     elif analysis_option == 'Batting Stats':
         filtered_batting_df = filter_batting_data(batting_df)
@@ -191,6 +187,11 @@ if st.sidebar.button('Submit'):
         most_sixes = most_sixes[most_sixes['Sixes'] != 0]  # Filter non-zero sixes
         most_sixes.index += 1  # Start numbering from 1
         st.write(most_sixes)
+
+        # Correlation Matrix for Batting Stats
+        st.subheader('**Correlation Matrix for Batting Stats:**')
+        batting_heatmap = filtered_batting_df.select_dtypes(include=['float64', 'int64']).corr()
+        st.write(batting_heatmap)
 
 # Add a section to compare batting statistics of selected players
 if analysis_option == 'Batting Stats':
