@@ -4,6 +4,9 @@ import plotly.express as px
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+# Disable the warning
+st.set_option('deprecation.showPyplotGlobalUse', False)
+
 # Set page width
 st.set_page_config(layout="wide")
 
@@ -106,12 +109,6 @@ if st.sidebar.button('Submit'):
         top_economical_players.index += 1  # Start numbering from 1
         st.write(top_economical_players)
 
-        # Heatmap for Bowling Statistics
-        st.subheader('**Heatmap for Bowling Statistics**')
-        bowling_heatmap = filtered_bowling_df.select_dtypes(include=['float64', 'int64']).corr()
-        sns.heatmap(bowling_heatmap, annot=True, cmap='coolwarm', linewidths=0.5)
-        st.pyplot()
-
     elif analysis_option == 'Batting Stats':
         filtered_batting_df = filter_batting_data(batting_df)
         st.write(filtered_batting_df)
@@ -188,12 +185,6 @@ if st.sidebar.button('Submit'):
         most_sixes = most_sixes[most_sixes['Sixes'] != 0]  # Filter non-zero sixes
         most_sixes.index += 1  # Start numbering from 1
         st.write(most_sixes)
-
-        # Heatmap for Batting Statistics
-        st.subheader('**Heatmap for Batting Statistics**')
-        batting_heatmap = filtered_batting_df.select_dtypes(include=['float64', 'int64']).corr()
-        sns.heatmap(batting_heatmap, annot=True, cmap='coolwarm', linewidths=0.5)
-        st.pyplot()
 
 # Add a section to compare batting statistics of selected players
 if analysis_option == 'Batting Stats':
