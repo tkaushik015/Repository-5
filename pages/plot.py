@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
 import seaborn as sns
 import matplotlib.pyplot as plt
-import plotly.express as px
 
 # Set page width
 st.set_page_config(layout="wide")
@@ -111,6 +111,20 @@ if st.sidebar.button('Submit'):
         bowling_heatmap = filtered_bowling_df.select_dtypes(include=['float64', 'int64']).corr()
         st.write(bowling_heatmap)
 
+        # Bar plots for selected bowlers
+        if st.button('Compare Selected Bowlers'):
+            st.subheader('Bar Plots for Selected Bowlers')
+            for bowler in bowlers_to_compare:
+                selected_bowler_df = filtered_bowling_df[filtered_bowling_df['Name'] == bowler]
+                st.write(f'**{bowler}**: ')
+                fig = px.bar(selected_bowler_df, x=['Inns', 'Balls', 'Overs', 'Runs', 'Wickets', 'Average', 'Economy', 'Strike_Rate', 'Four_wickets', 'Five_wickets'],
+                             y=[selected_bowler_df['Inns'], selected_bowler_df['Balls'], selected_bowler_df['Overs'], selected_bowler_df['Runs'],
+                                selected_bowler_df['Wickets'], selected_bowler_df['Average'], selected_bowler_df['Economy'], selected_bowler_df['Strike_Rate'],
+                                selected_bowler_df['Four_wickets'], selected_bowler_df['Five_wickets']],
+                             labels={'x': 'Statistics', 'y': 'Values'},
+                             title=f'Statistics comparison for {bowler}')
+                st.plotly_chart(fig, use_container_width=True)
+
     elif analysis_option == 'Batting Stats':
         filtered_batting_df = filter_batting_data(batting_df)
         st.write(filtered_batting_df)
@@ -193,28 +207,19 @@ if st.sidebar.button('Submit'):
         batting_heatmap = filtered_batting_df.select_dtypes(include=['float64', 'int64']).corr()
         st.write(batting_heatmap)
 
-# Add a section to compare batting statistics of selected players
-if analysis_option == 'Batting Stats':
-    st.sidebar.header('Compare Batsmen')
-    players_to_compare = st.sidebar.multiselect('Select Batsmen', batting_df['Name'].unique())
-
-    if st.sidebar.button('Compare'):
-        comparison_df = batting_df[batting_df['Name'].isin(players_to_compare)].reset_index(drop=True)
-        comparison_df.index += 1  # Start numbering from 1
-        comparison_df.rename(columns={'Unnamed: 0': 'Index no.'}, inplace=True)  # Rename index column
-        st.subheader('**Comparison of Batting Statistics**')
-        st.write(comparison_df)
-
-# Add a section to compare bowling statistics of selected players
-if analysis_option == 'Bowling Stats':
-    st.sidebar.header('Compare Bowlers')
-    bowlers_to_compare = st.sidebar.multiselect('Select Bowlers', bowling_df['Name'].unique())
-
-    if st.sidebar.button('Compare'):
-        comparison_bowlers_df = bowling_df[bowling_df['Name'].isin(bowlers_to_compare)].reset_index(drop=True)
-        comparison_bowlers_df.index += 1  # Start numbering from 1
-        st.subheader('**Comparison of Bowling Statistics**')
-        st.write(comparison_bowlers_df)
+        # Bar plots for selected batsmen
+        if st.button('Compare Selected Batsmen'):
+            st.subheader('Bar Plots for Selected Batsmen')
+            for batsman in players_to_compare:
+                selected_batsman_df = filtered_batting_df[filtered_batting_df['Name'] == batsman]
+                st.write(f'**{batsman}**: ')
+                fig = px.bar(selected_batsman_df, x=['Innings', 'Runs', 'Highest_score', 'Average', 'Strike_rate', 'Hundreds', 'Fifties', 'Fours', 'Sixes'],
+                             y=[selected_batsman_df['Innings'], selected_batsman_df['Runs'], selected_batsman_df['Highest_score'],
+                                selected_batsman_df['Average'], selected_batsman_df['Strike_rate'], selected_batsman_df['Hundreds'],
+                                selected_batsman_df['Fifties'], selected_batsman_df['Fours'], selected_batsman_df['Sixes']],
+                             labels={'x': 'Statistics', 'y': 'Values'},
+                             title=f'Statistics comparison for {batsman}')
+                st.plotly_chart(fig, use_container_width=True)
 
 # Set background color
 def set_background_color(color):
