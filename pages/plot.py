@@ -1,8 +1,31 @@
-#THIS HAS PERFECT BATTING
 import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+# Load data
+@st.cache
+def load_batting_data():
+    return pd.read_csv('2023_batting.csv')
+
+batting_df = load_batting_data()
+
+# Sidebar filters
+st.sidebar.header('Filters')
+country_list = list(batting_df['Country'].unique())
+country = st.sidebar.selectbox("Select Country", country_list)
+
+# Filter batting data by selected country
+filtered_batting_df = batting_df[batting_df['Country'] == country] if country else batting_df
+
+# Calculate number of power hitters (strike rate >= 150) in each country
+power_hitters_by_country = filtered_batting_df[filtered_batting_df['Strike_rate'] >= 150].groupby('Country').size().reset_index(name='Number of Power Hitters')
+
+# Visualize the number of power hitters by country using a bar graph
+st.subheader('Number of Power Hitters (Strike Rate >= 150) by Country')
+fig = px.bar(power_hitters_by_country, x='Country', y='Number of Power Hitters', title='Number of Power Hitters (Strike Rate >= 150) by Country')
+st.plotly_chart(fig)
+
+# THIS HAS PERFECT BATTING
 # Load data
 @st.cache
 def load_bowling_data():
