@@ -1,8 +1,6 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import seaborn as sns
-import matplotlib.pyplot as plt
 
 # Set page width
 st.set_page_config(layout="wide")
@@ -50,17 +48,6 @@ def filter_batting_data_by_country(df, country):
     else:
         return df
 
-# Compare Selected Batsmen dropdown
-if analysis_option == 'Batting Stats':
-    st.sidebar.header('Compare Batsmen')
-    players_to_compare = st.sidebar.multiselect('Select Batsmen', batting_df['Name'].unique())
-
-# Compare Selected Bowlers dropdown
-if analysis_option == 'Bowling Stats':
-    st.sidebar.header('Compare Bowlers')
-    bowlers_to_compare = st.sidebar.multiselect('Select Bowlers', bowling_df['Name'].unique())
-
-# Submit button
 if st.sidebar.button('Submit'):
     if analysis_option == 'Bowling Stats':
         filtered_bowling_df = filter_bowling_data(bowling_df)
@@ -204,8 +191,11 @@ if st.sidebar.button('Submit'):
         batting_heatmap = filtered_batting_df.select_dtypes(include=['float64', 'int64']).corr()
         st.write(batting_heatmap)
 
-# Comparison of selected batsmen
+# Add a section to compare batting statistics of selected players
 if analysis_option == 'Batting Stats':
+    st.sidebar.header('Compare Batsmen')
+    players_to_compare = st.sidebar.multiselect('Select Batsmen', batting_df['Name'].unique())
+
     if st.sidebar.button('Compare'):
         comparison_df = batting_df[batting_df['Name'].isin(players_to_compare)].reset_index(drop=True)
         comparison_df.index += 1  # Start numbering from 1
@@ -213,21 +203,11 @@ if analysis_option == 'Batting Stats':
         st.subheader('**Comparison of Batting Statistics**')
         st.write(comparison_df)
 
-        # Bar plots for comparison of selected batsmen
-        st.subheader('**Bar plots for Comparison of Batting Statistics**')
-        for batsman in players_to_compare:
-            selected_batsman_df = batting_df[batting_df['Name'] == batsman]
-            st.write(f'**{batsman}**: ')
-            fig = px.bar(selected_batsman_df, x=['Innings', 'Runs', 'Highest_score', 'Average', 'Strike_rate', 'Hundreds', 'Fifties', 'Fours', 'Sixes'],
-                         y=[selected_batsman_df['Innings'], selected_batsman_df['Runs'], selected_batsman_df['Highest_score'],
-                            selected_batsman_df['Average'], selected_batsman_df['Strike_rate'], selected_batsman_df['Hundreds'],
-                            selected_batsman_df['Fifties'], selected_batsman_df['Fours'], selected_batsman_df['Sixes']],
-                         labels={'x': 'Statistics', 'y': 'Values'},
-                         title=f'Statistics comparison for {batsman}')
-            st.plotly_chart(fig, use_container_width=True)
-
-# Comparison of selected bowlers
+# Add a section to compare bowling statistics of selected players
 if analysis_option == 'Bowling Stats':
+    st.sidebar.header('Compare Bowlers')
+    bowlers_to_compare = st.sidebar.multiselect('Select Bowlers', bowling_df['Name'].unique())
+
     if st.sidebar.button('Compare'):
         comparison_bowlers_df = bowling_df[bowling_df['Name'].isin(bowlers_to_compare)].reset_index(drop=True)
         comparison_bowlers_df.index += 1  # Start numbering from 1
