@@ -107,6 +107,12 @@ if st.sidebar.button('Submit'):
         top_power_hitters.index += 1  # Start numbering from 1
         st.write(top_power_hitters)
 
+        # Table of Number Of Fifties By Each Player
+        st.subheader('Number Of Fifties By Each Player')
+        fifties_by_player = filtered_batting_df[['Name', 'Fifties']].copy()
+        fifties_by_player.index += 1  # Start numbering from 1
+        st.write(fifties_by_player)
+
 else:
     if analysis_option == 'Bowling Stats':
         st.write(bowling_df)
