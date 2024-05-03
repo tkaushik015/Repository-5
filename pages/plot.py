@@ -146,11 +146,14 @@ if st.sidebar.button('Submit'):
 
 # Add a section to compare batting statistics of selected players
 if analysis_option == 'Batting Stats':
+    st.sidebar.markdown('<hr style="border-top: 2px solid #FFFFFF">', unsafe_allow_html=True)  # Solid line
     st.sidebar.header('Compare Batsmen')
     players_to_compare = st.sidebar.multiselect('Select Batsmen', batting_df['Name'].unique())
 
     if st.sidebar.button('Compare'):
-        comparison_df = batting_df[batting_df['Name'].isin(players_to_compare)]
+        comparison_df = batting_df[batting_df['Name'].isin(players_to_compare)].reset_index(drop=True)
+        comparison_df['Position in Orange Cap Table'] = comparison_df.index + 1  # Adding position column
+        comparison_df = comparison_df.rename(columns={'Position in Orange Cap Table': 'Position in Orange Cap Table'})
         st.subheader('**Comparison of Batting Statistics**')
         st.write(comparison_df)
 
