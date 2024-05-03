@@ -193,6 +193,17 @@ if analysis_option == 'Batting Stats':
         st.subheader('**Comparison of Batting Statistics**')
         st.write(comparison_df)
 
+# Add a section to compare bowling statistics of selected players
+if analysis_option == 'Bowling Stats':
+    st.sidebar.header('Compare Bowlers')
+    bowlers_to_compare = st.sidebar.multiselect('Select Bowlers', bowling_df['Name'].unique())
+
+    if st.sidebar.button('Compare'):
+        comparison_bowlers_df = bowling_df[bowling_df['Name'].isin(bowlers_to_compare)].reset_index(drop=True)
+        comparison_bowlers_df.index += 1  # Start numbering from 1
+        st.subheader('**Comparison of Bowling Statistics**')
+        st.write(comparison_bowlers_df)
+
 # Set background color
 def set_background_color(color):
     st.markdown(f"""
