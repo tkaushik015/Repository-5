@@ -14,13 +14,8 @@ def load_bowling_data():
 def load_batting_data():
     return pd.read_csv('2023_batting.csv')
 
-@st.cache
-def load_wickets_data():
-    return pd.read_csv('2023_wickets.csv')
-
 bowling_df = load_bowling_data()
 batting_df = load_batting_data()
-wickets_df = load_wickets_data()
 
 # Sidebar filters
 st.sidebar.header('Filters')
@@ -38,8 +33,16 @@ def filter_bowling_data(df):
         df2 = df  # Return original dataframe if no country selected
     return df2
 
+# Function to filter batting data
+def filter_batting_data(df):
+    if country:
+        df2 = df[df['Country'].str.contains(country, case=False)]
+    else:
+        df2 = df  # Return original dataframe if no country selected
+    return df2
+
 # Function to filter batting data by country
-def filter_batting_data(df, country):
+def filter_batting_data_by_country(df, country):
     if country:
         return df[df['Country'] == country]
     else:
@@ -66,7 +69,7 @@ if st.sidebar.button('Submit'):
         st.plotly_chart(fig, use_container_width=True)
 
     elif analysis_option == 'Batting Stats':
-        filtered_batting_df = filter_batting_data(batting_df, country)
+        filtered_batting_df = filter_batting_data(batting_df)
         st.write(filtered_batting_df)
 
         # Orange Cap Pie Chart
