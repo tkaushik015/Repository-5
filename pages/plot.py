@@ -73,6 +73,11 @@ if st.sidebar.button('Submit'):
         fig_box = px.box(filtered_bowling_df, x='Name', y='Wickets', title='Wickets Taken by Players')
         st.plotly_chart(fig_box, use_container_width=True)
 
+        # Bar plot Showing Wickets Taken by Players
+        st.write("**Bar plot Showing Wickets Taken by Players:**")
+        fig_bar = px.bar(filtered_bowling_df, x='Name', y='Wickets', title='Wickets Taken by Players')
+        st.plotly_chart(fig_bar, use_container_width=True)
+
     elif analysis_option == 'Batting Stats':
         filtered_batting_df = filter_batting_data(batting_df)
         st.write(filtered_batting_df)
