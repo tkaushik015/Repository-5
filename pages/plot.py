@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import time
 
 # Load data
 @st.cache
@@ -13,6 +14,26 @@ def load_batting_data():
 
 bowling_df = load_bowling_data()
 batting_df = load_batting_data()
+
+# Custom CSS for black background
+st.markdown(
+    """
+    <style>
+    .reportview-container {
+        background: black;
+        color: white;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# Images for IPL
+ipl_images = [
+    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.moneycontrol.com%2Fsports%2Fcricket%2Fipl-2024-csk-to-face-rcb-in-tournament-opener-on-march-22-bcci-announces-21-match-schedule-article-12332511.html&psig=AOvVaw0_gphs1H4ge14zNs0WMzbl&ust=1714781526579000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCKD2pZGZ8IUDFQAAAAAdAAAAABAE",
+    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwallpapers.com%2Fipl-2021&psig=AOvVaw0_gphs1H4ge14zNs0WMzbl&ust=1714781526579000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCKD2pZGZ8IUDFQAAAAAdAAAAABAR",
+    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwisden.com%2Fstories%2Fglobal-t20-leagues%2Findian-premier-league-2024%2Fipl-2024-auction-full-list-captains-each-team-ahead-csk-mi-rcb-kkr-dc-rr-srh-pbks-lsg-gt&psig=AOvVaw0_gphs1H4ge14zNs0WMzbl&ust=1714781526579000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCKD2pZGZ8IUDFQAAAAAdAAAAABAh"
+]
 
 # Sidebar filters
 st.sidebar.header('Filters')
@@ -89,9 +110,15 @@ if st.sidebar.button('Submit'):
         fig = px.pie(fifties_by_country_all, values='Fifties', names='Country', title='Fifties distribution by Country')
         st.plotly_chart(fig)
 
-else:
-    if analysis_option == 'Bowling Stats':
-        st.write(bowling_df)
+        # Bar plot for Number of Power Hitters (Strike Rate >= 150) by Country
+        st.write("Bar plot of Number of Power Hitters (Strike Rate >= 150) by Country:")
+        power_hitters_df = batting_df[batting_df['Strike_rate'] >= 150]
+        power_hitters_by_country = power_hitters_df.groupby("Country").size().reset_index(name='Number of Power Hitters')
+        fig = px.bar(power_hitters_by_country, x='Country', y='Number of Power Hitters', title='Number of Power Hitters (Strike Rate >= 150) by Country')
+        st.plotly_chart(fig)
 
-    elif analysis_option == 'Batting Stats':
-        st.write(batting_df)
+# Display IPL images that change every 5 seconds
+while True:
+    for image_url in ipl_images:
+        st.image(image_url, use_column_width=True)
+        time.sleep(5)
