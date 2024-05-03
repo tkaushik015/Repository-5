@@ -138,6 +138,13 @@ if st.sidebar.button('Submit'):
         most_sixes.index += 1  # Start numbering from 1
         st.write(most_sixes)
 
+        # Table of Best Batting Average
+        st.subheader('Best Batting Average')
+        best_batting_average = filtered_batting_df[['Name', 'Average']].copy()
+        best_batting_average = best_batting_average.sort_values(by='Average', ascending=False)
+        best_batting_average.index += 1  # Start numbering from 1
+        st.write(best_batting_average)
+
 else:
     if analysis_option == 'Bowling Stats':
         st.write(bowling_df)
