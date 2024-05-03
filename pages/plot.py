@@ -16,7 +16,7 @@ def load_batting_data():
 
 @st.cache
 def load_wickets_data():
-    return pd.read_csv('2023_wickets.csv')
+    return pd.read_csv('2023_bowling.csv')
 
 bowling_df = load_bowling_data()
 batting_df = load_batting_data()
