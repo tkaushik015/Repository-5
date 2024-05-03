@@ -108,4 +108,39 @@ if st.sidebar.button('Submit'):
         st.subheader('Top Power hitters')
         top_power_hitters = filtered_batting_df[filtered_batting_df['Strike_rate'] >= 150].reset_index(drop=True)
         top_power_hitters.index += 1  # Start numbering from 1
-        st.write(top_power
+        st.write(top_power_hitters)
+
+        # Table of Number Of Fifties By Each Player
+        st.subheader('Number Of Fifties By Each Player')
+        fifties_by_player = filtered_batting_df[['Name', 'Fifties']].copy()
+        fifties_by_player = fifties_by_player[fifties_by_player['Fifties'] != 0]  # Filter non-zero fifties
+        fifties_by_player.index += 1  # Start numbering from 1
+        st.write(fifties_by_player)
+
+        # Table of Number Of Hundreds By Each Player
+        st.subheader('Number Of Hundreds By Each Player')
+        hundreds_by_player = filtered_batting_df[['Name', 'Hundreds']].copy()
+        hundreds_by_player = hundreds_by_player[hundreds_by_player['Hundreds'] != 0]  # Filter non-zero hundreds
+        hundreds_by_player.index += 1  # Start numbering from 1
+        st.write(hundreds_by_player)
+
+        # Table of Most Boundaries
+        st.subheader('Most Boundaries')
+        most_boundaries = filtered_batting_df[['Name', 'Fours']].copy()
+        most_boundaries = most_boundaries[most_boundaries['Fours'] != 0]  # Filter non-zero boundaries
+        most_boundaries.index += 1  # Start numbering from 1
+        st.write(most_boundaries)
+
+        # Table of Most Sixes
+        st.subheader('Most Sixes')
+        most_sixes = filtered_batting_df[['Name', 'Sixes']].copy()
+        most_sixes = most_sixes[most_sixes['Sixes'] != 0]  # Filter non-zero sixes
+        most_sixes.index += 1  # Start numbering from 1
+        st.write(most_sixes)
+
+else:
+    if analysis_option == 'Bowling Stats':
+        st.write(bowling_df)
+
+    elif analysis_option == 'Batting Stats':
+        st.write(batting_df)
