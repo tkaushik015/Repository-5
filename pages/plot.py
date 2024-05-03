@@ -18,6 +18,7 @@ bowling_df = load_bowling_data()
 batting_df = load_batting_data()
 
 # Sidebar filters
+st.sidebar.markdown('<hr style="border-top: 2px solid #FFFFFF">', unsafe_allow_html=True)  # Solid line
 st.sidebar.header('Filters')
 analysis_option = st.sidebar.selectbox('Analysis Option', ['Bowling Stats', 'Batting Stats'])
 
@@ -144,15 +145,17 @@ if st.sidebar.button('Submit'):
         most_sixes.index += 1  # Start numbering from 1
         st.write(most_sixes)
 
-# Add a section to compare batting statistics of selected players
-if analysis_option == 'Batting Stats':
-    st.sidebar.header('Compare Batsmen')
-    players_to_compare = st.sidebar.multiselect('Select Batsmen', batting_df['Name'].unique())
+        # Add a section to compare batting statistics of selected players
+        st.sidebar.markdown('<hr style="border-top: 2px solid #FFFFFF">', unsafe_allow_html=True)  # Solid line
+        st.sidebar.header('Compare Batsmen')
+        players_to_compare = st.sidebar.multiselect('Select Batsmen', batting_df['Name'].unique())
 
-    if st.sidebar.button('Compare'):
-        comparison_df = batting_df[batting_df['Name'].isin(players_to_compare)]
-        st.subheader('**Comparison of Batting Statistics**')
-        st.write(comparison_df)
+        if st.sidebar.button('Compare'):
+            comparison_df = batting_df[batting_df['Name'].isin(players_to_compare)].reset_index(drop=True)
+            comparison_df['Position on Orange Cap Table'] = comparison_df.index + 1  # Adding position column
+            comparison_df = comparison_df.rename(columns={'Position on Orange Cap Table': 'Position on Orange Cap Table'})
+            st.subheader('**Comparison of Batting Statistics**')
+            st.write(comparison_df)
 
 else:
     if analysis_option == 'Bowling Stats':
