@@ -73,6 +73,14 @@ if st.sidebar.button('Submit'):
         fig_bar = px.bar(filtered_bowling_df, x='Name', y='Wickets', title='Wickets Taken by Players')
         st.plotly_chart(fig_bar, use_container_width=True)
 
+        # Best Bowling Average bar plot
+        st.subheader('**Best Bowling Average**')
+        best_bowling_average = filtered_bowling_df[['Name', 'Average']].copy()
+        best_bowling_average = best_bowling_average.sort_values(by='Average', ascending=False).reset_index(drop=True)
+        best_bowling_average.index += 1  # Start numbering from 1
+        fig_best_avg = px.bar(best_bowling_average, x='Name', y='Average', title='Best Bowling Average')
+        st.plotly_chart(fig_best_avg, use_container_width=True)
+
     elif analysis_option == 'Batting Stats':
         filtered_batting_df = filter_batting_data(batting_df)
         st.write(filtered_batting_df)
