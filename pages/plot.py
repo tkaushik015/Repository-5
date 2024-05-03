@@ -68,11 +68,6 @@ if st.sidebar.button('Submit'):
         fig = px.pie(wickets_by_bowler, values='Wickets', names='Name', title='Wickets distribution by Bowler')
         st.plotly_chart(fig, use_container_width=True)
 
-        # Box plot Showing Wickets Taken by Players
-        st.write("**Box plot Showing Wickets Taken by Players:**")
-        fig_box = px.box(filtered_bowling_df, x='Name', y='Wickets', title='Wickets Taken by Players')
-        st.plotly_chart(fig_box, use_container_width=True)
-
         # Bar plot Showing Wickets Taken by Players
         st.write("**Bar plot Showing Wickets Taken by Players:**")
         fig_bar = px.bar(filtered_bowling_df, x='Name', y='Wickets', title='Wickets Taken by Players')
