@@ -151,7 +151,7 @@ if analysis_option == 'Batting Stats':
 
     if st.sidebar.button('Compare'):
         comparison_df = batting_df[batting_df['Name'].isin(players_to_compare)].reset_index(drop=True)
-        comparison_df.rename_axis('Position in Orange Cap Table', inplace=True)  # Rename index column
+        comparison_df.rename_axis('Index no.', inplace=True)  # Rename index column
         st.subheader('**Comparison of Batting Statistics**')
         st.write(comparison_df)
 
